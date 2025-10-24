@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Nunito_Sans} from 'next/font/google'
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const nunito = Nunito_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-nunito",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,9 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={nunito.variable}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+       className="font-nunito antialiased"
       >
         {children}
       </body>

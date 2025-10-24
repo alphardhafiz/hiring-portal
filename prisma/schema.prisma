@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// PRISMA SCHEMA
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum JobType {
+  FULL_TIME
+  CONTRACT
+  PART_TIME
+  INTERNSHIP
+  FREELANCE
+}
+
+enum JobStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
+}
+
+enum FieldRequirement {
+  MANDATORY
+  OPTIONAL
+  OFF
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model Job {
+  id               Int       @id @default(autoincrement())
+  slug             String    @unique
+  jobName          String
+  jobType          JobType
+  jobDescription   String?
+  numOfCandidate   Int       @default(0)
+  minSalary        Int?
+  maxSalary        Int?
+  status           JobStatus @default(DRAFT)
+  fullName         FieldRequirement @default(MANDATORY)
+  photoProfile     FieldRequirement @default(MANDATORY)
+  gender           FieldRequirement @default(OPTIONAL)
+  domicile         FieldRequirement @default(OPTIONAL)
+  email            FieldRequirement @default(MANDATORY)
+  phoneNumber      FieldRequirement @default(OPTIONAL)
+  linkedin         FieldRequirement @default(OFF)
+  dateOfBirth      FieldRequirement @default(OPTIONAL)
+  applicants       Applicant[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model Applicant {
+  id             Int       @id @default(autoincrement())
+  jobId          Int
+  job            Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  fullName       String
+  photoProfile   String
+  email          String
+  gender         Gender?
+  domicile       String?
+  phoneNumber    String?
+  linkedin       String?
+  dateOfBirth    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
