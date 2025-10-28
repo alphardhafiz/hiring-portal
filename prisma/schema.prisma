@@ -49,7 +49,7 @@ model Job {
   numOfCandidate   Int       @default(0)
   minSalary        Int?
   maxSalary        Int?
-  status           JobStatus @default(DRAFT)
+  status           JobStatus @default(ACTIVE)
   fullName         FieldRequirement @default(MANDATORY)
   photoProfile     FieldRequirement @default(MANDATORY)
   gender           FieldRequirement @default(OPTIONAL)
