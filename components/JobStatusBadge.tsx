@@ -1,7 +1,6 @@
-export default function JobStatusBadge({ status }: { status: string }) {
-  const formatted =
-    status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+import firstCharCapical from "@/utils/firstCharCapital";
 
+export default function JobStatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
     ACTIVE: "border border-[#B8DBCA] text-[#43936C] bg-[#F8FBF9]",
     INACTIVE: "border border-[#F5B1B7] text-[#E11428] bg-[#FFFAFA]",
@@ -16,7 +15,7 @@ export default function JobStatusBadge({ status }: { status: string }) {
     <span
       className={`text-[14px] text-center w-[80px] font-bold py-[8px] px-[16px] rounded-[8px] ${style}`}
     >
-      {formatted}
+      {firstCharCapical(status)}
     </span>
   );
 }

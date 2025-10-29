@@ -11,9 +11,10 @@ import formatRupiah from "@/utils/formatRupiah";
 interface ModalCreateJobProps {
   isOpen: boolean;
   onClose: () => void;
+  onJobCreated: () => void;
 }
 
-function ModalCreateJob({ isOpen, onClose }: ModalCreateJobProps) {
+function ModalCreateJob({ isOpen, onClose, onJobCreated }: ModalCreateJobProps) {
   const [formData, setFormData] = useState({
     jobName: "",
     jobType: "",
@@ -76,21 +77,14 @@ function ModalCreateJob({ isOpen, onClose }: ModalCreateJobProps) {
         dateOfBirth: "OPTIONAL",
       });
       onClose()
+
+      onJobCreated()
     } catch (error) {
       console.error("Error creating job:", error);
     } finally {
       setLoading(false);
     }
   };
-
-  // const formatRupiah = (value: string | number) => {
-  //   if (value === "" || value === null) return "";
-  //   const numberString = value.toString().replace(/\D/g, "");
-  //   const formatted = new Intl.NumberFormat("id-ID").format(
-  //     Number(numberString)
-  //   );
-  //   return formatted;
-  // };
 
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

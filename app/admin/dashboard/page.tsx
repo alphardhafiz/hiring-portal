@@ -9,6 +9,7 @@ import SearchInput from "@/components/SearchInput";
 import CardCreateNewJob from "./_components/CardCreateNewJob";
 import ModalCreateJob from "./_components/ModalCreateJob";
 import CardJob from "./_components/CardJob";
+import { Job } from "@prisma/client";
 
 export default function DashboardPage() {
   const session = useAdminStore((s) => s.session);
@@ -17,7 +18,7 @@ export default function DashboardPage() {
 
   const [isHydrated, setIsHydrated] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [jobs, setJobs] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ export default function DashboardPage() {
     if (isHydrated && !session) router.push("/admin/login");
   }, [isHydrated, session, router]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsLoggingOut(true);
     await supabase.auth.signOut();
     clearSession();
@@ -45,7 +46,7 @@ export default function DashboardPage() {
         : "/api/jobs";
       const res = await fetch(url);
       const data = await res.json();
-      setJobs(data.jobs || []);
+      setJobs(data || []);
     } catch (err) {
       console.error("Failed to fetch jobs:", err);
     } finally {
@@ -103,12 +104,6 @@ export default function DashboardPage() {
               {jobs.map((job) => (
                 <CardJob key={job.id} job={job} />
               ))}
-              {jobs.map((job) => (
-                <CardJob key={job.id} job={job} />
-              ))}
-              {jobs.map((job) => (
-                <CardJob key={job.id} job={job} />
-              ))}
             </div>
           ) : (
             <div className="flex-1 flex flex-col justify-center items-center w-full h-full gap-4">
@@ -141,6 +136,7 @@ export default function DashboardPage() {
       <ModalCreateJob
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onJobCreated={fetchJobs}
       />
     </>
   );

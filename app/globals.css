@@ -25,3 +25,13 @@ body {
     text-wrap: balance;
   }
 }
+
+/* global.css */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 4px;
+}
