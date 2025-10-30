@@ -3,7 +3,6 @@
 import { useAdminStore } from "@/app/store/useStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "@/app/lib/supabaseClient";
 import Header from "@/components/Header";
 import SearchInput from "@/components/SearchInput";
 import CardCreateNewJob from "./_components/CardCreateNewJob";
@@ -12,32 +11,11 @@ import CardJob from "./_components/CardJob";
 import { Job } from "@prisma/client";
 
 export default function DashboardPage() {
-  const session = useAdminStore((s) => s.session);
-  const clearSession = useAdminStore((s) => s.clearSession);
-  const router = useRouter();
-
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // hydration
-  useEffect(() => setIsHydrated(true), []);
-
-  useEffect(() => {
-    if (isHydrated && !session) router.push("/admin/login");
-  }, [isHydrated, session, router]);
-
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    await supabase.auth.signOut();
-    clearSession();
-    router.push("/admin/login");
-  };
-
-  // ====== Fetch jobs from API ======
   const fetchJobs = useCallback(async (search = "") => {
     try {
       setLoading(true);
@@ -54,39 +32,16 @@ export default function DashboardPage() {
     }
   }, []);
 
-  // Hapus useEffect fetchJobs() yang terpisah
-
-  // Hanya pakai debounced search, yang juga handle initial load
   useEffect(() => {
     const delayDebounce = setTimeout(
       () => {
         fetchJobs(searchQuery);
       },
       searchQuery ? 500 : 0
-    ); // no delay untuk initial load (searchQuery kosong)
+    );
 
     return () => clearTimeout(delayDebounce);
   }, [searchQuery, fetchJobs]);
-
-  if (!isHydrated)
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#01959F] mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-
-  if (!session)
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#01959F] mx-auto"></div>
-          <p className="mt-4 text-gray-600">Redirecting...</p>
-        </div>
-      </div>
-    );
 
   return (
     <>
