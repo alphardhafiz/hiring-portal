@@ -6,6 +6,9 @@ import { Job } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import ButtonBack from "./ButtonBack";
 import LabelInput from "@/components/LabelInput";
+import CustomDatePicker from "./CustomDatePicker";
+import CustomInputDomicile from "./CustomInputDomicile";
+import CustomPhoneInput from "./CustomPhoneInput";
 
 interface ApplyJobFormProps {
   job: Job;
@@ -124,57 +127,6 @@ export default function ApplyJobForm({ job }: ApplyJobFormProps) {
 
         {/* Main Form */}
         <div className="space-y-6">
-          {/* Full Name */}
-          <div>
-            <LabelInput
-              isRequire={job.fullName === "MANDATORY"}
-              title="Full Name"
-            />
-            <input
-              disabled={job.fullName === "OFF"}
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Ex. John Doe"
-              className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <LabelInput
-              isRequire={job.email === "MANDATORY"}
-              title="Email Address"
-            />
-            <input
-              disabled={job.email === "OFF"}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Ex. johndoe@example.com"
-              className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
-            />
-          </div>
-
-          {/* Phone Number */}
-          <div>
-            <LabelInput
-              isRequire={job.phoneNumber === "MANDATORY"}
-              title="Phone Number"
-            />
-            <input
-              disabled={job.phoneNumber === "OFF"}
-              type="tel"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              placeholder="Ex. +62 812 3456 7890"
-              className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
-            />
-          </div>
-
           {/* Photo Profile Upload */}
           <div>
             <LabelInput
@@ -197,36 +149,112 @@ export default function ApplyJobForm({ job }: ApplyJobFormProps) {
               </p>
             )}
           </div>
+          {/* Full Name */}
+          <div>
+            <LabelInput
+              isRequire={job.fullName === "MANDATORY"}
+              title="Full Name"
+            />
+            <input
+              disabled={job.fullName === "OFF"}
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder="Enter your full name"
+              className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
+            />
+          </div>
+          {/* Date of Birth */}
+          <div>
+            <LabelInput
+              isRequire={job.dateOfBirth === "MANDATORY"}
+              title="Date of Birth"
+            />
+            <CustomDatePicker
+              name="dateOfBirth"
+              value={formData.dateOfBirth}
+              onChange={handleChange}
+              disabled={job.dateOfBirth === "OFF"}
+              isRequire={job.dateOfBirth === "MANDATORY"}
+            />
+          </div>
 
           {/* Gender */}
           <div>
-            <LabelInput isRequire={job.gender === "MANDATORY"} title="Gender" />
-            <select
-              disabled={job.gender === "OFF"}
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
-            >
-              <option value="">Select Gender</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-            </select>
+            <LabelInput
+              isRequire={job.gender === "MANDATORY"}
+              title="Pronoun (gender)"
+            />
+            <div className="flex items-center gap-6 mt-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="FEMALE"
+                  disabled={job.gender === "OFF"}
+                  checked={formData.gender === "FEMALE"}
+                  onChange={handleChange}
+                  className="accent-[#01959F] w-4 h-4"
+                />
+                <span>She/Her (Female)</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="MALE"
+                  disabled={job.gender === "OFF"}
+                  checked={formData.gender === "MALE"}
+                  onChange={handleChange}
+                  className="accent-[#01959F] w-4 h-4"
+                />
+                <span>He/Him (Male)</span>
+              </label>
+            </div>
           </div>
 
           {/* Domicile */}
-          <div>
+          <div className="relative">
             <LabelInput
               isRequire={job.domicile === "MANDATORY"}
               title="Domicile"
             />
-            <input
-              disabled={job.domicile === "OFF"}
-              type="text"
+            <CustomInputDomicile
               name="domicile"
               value={formData.domicile}
               onChange={handleChange}
-              placeholder="Ex. Jakarta, Indonesia"
+              isRequire={true}
+              placeholder="Choose your domicile"
+            />
+          </div>
+
+          {/* Phone Number */}
+          <div>
+            <LabelInput
+              isRequire={job.phoneNumber === "MANDATORY"}
+              title="Phone Number"
+            />
+            <CustomPhoneInput
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <LabelInput
+              isRequire={job.email === "MANDATORY"}
+              title="Email Address"
+            />
+            <input
+              disabled={job.email === "OFF"}
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Ex. johndoe@example.com"
               className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
             />
           </div>
@@ -244,22 +272,6 @@ export default function ApplyJobForm({ job }: ApplyJobFormProps) {
               value={formData.linkedin}
               onChange={handleChange}
               placeholder="Ex. https://linkedin.com/in/johndoe"
-              className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
-            />
-          </div>
-
-          {/* Date of Birth */}
-          <div>
-            <LabelInput
-              isRequire={job.dateOfBirth === "MANDATORY"}
-              title="Date of Birth"
-            />
-            <input
-              disabled={job.dateOfBirth === "OFF"}
-              type="date"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
               className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
             />
           </div>

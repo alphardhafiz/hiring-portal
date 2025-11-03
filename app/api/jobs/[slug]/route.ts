@@ -9,7 +9,6 @@ interface Params {
 export async function GET(req: Request, { params }: { params: Params }) {
   try {
     const { slug } = params;
-    console.log(params)
     const job = await prisma.job.findUnique({
       where: { slug },
     });

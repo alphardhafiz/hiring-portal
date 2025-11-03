@@ -57,7 +57,6 @@ function ModalCreateJob({ isOpen, onClose, onJobCreated }: ModalCreateJobProps) 
       if (!res.ok) throw new Error("Failed to create job");
 
       const result = await res.json();
-      console.log("Success:", result);
 
       // reset form ke default
       setFormData({
