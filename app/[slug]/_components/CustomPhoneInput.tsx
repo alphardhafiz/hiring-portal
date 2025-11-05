@@ -25,6 +25,11 @@ export default function CustomPhoneInput({
     c.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Ekstrak nomor tanpa dial code untuk display
+  const displayValue = value.startsWith(selectedCountry.dial_code)
+    ? value.slice(selectedCountry.dial_code.length)
+    : value;
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -42,6 +47,19 @@ export default function CustomPhoneInput({
   const handleSelect = (country: any) => {
     setSelectedCountry(country);
     setOpen(false);
+    
+    // Update value dengan dial code baru
+    const phoneNumber = value.startsWith(selectedCountry.dial_code)
+      ? value.slice(selectedCountry.dial_code.length)
+      : value;
+    
+    const event = {
+      target: {
+        name,
+        value: `${country.dial_code}${phoneNumber}`,
+      },
+    } as React.ChangeEvent<HTMLInputElement>;
+    onChange(event);
   };
 
   return (
@@ -65,9 +83,12 @@ export default function CustomPhoneInput({
         <input
           type="tel"
           name={name}
-          value={value}
+          value={displayValue}
           onChange={(e) => {
-            const newValue = `${selectedCountry.dial_code}${e.target.value}`;
+            // Hanya ambil angka yang diketik user
+            const phoneNumber = e.target.value;
+            const newValue = `${selectedCountry.dial_code}${phoneNumber}`;
+            
             const event = {
               ...e,
               target: {

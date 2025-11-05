@@ -25,38 +25,6 @@ export default function CustomInputLinkedinUrl({
     return linkedInPattern.test(url);
   };
 
-  // Atau gunakan function ini jika ingin cek via API
-  const checkLinkedInUrlViaAPI = async (url: string) => {
-    try {
-      new URL(url);
-    } catch {
-      setUrlStatus("invalid");
-      return;
-    }
-
-    setUrlStatus("checking");
-
-    try {
-      const response = await fetch("/api/check-url", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
-
-      const data = await response.json();
-
-      if (data.exists) {
-        setUrlStatus("valid");
-      } else {
-        setUrlStatus("invalid");
-      }
-    } catch (error) {
-      setUrlStatus("invalid");
-    }
-  };
-
   // Debounce untuk validasi
   useEffect(() => {
     if (!value || value.trim() === "") {
