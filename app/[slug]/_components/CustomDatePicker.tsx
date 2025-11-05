@@ -73,7 +73,6 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
         value: formattedValue
       }
     } as React.ChangeEvent<HTMLInputElement>;
-    console.log({date, syntheticEvent})
     onChange(syntheticEvent);
     setIsOpen(false);
   };

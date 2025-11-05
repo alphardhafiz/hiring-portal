@@ -15,7 +15,6 @@ export default async function JobPage({ params }: JobPageProps) {
   const job = await prisma.job.findUnique({
     where: { slug },
   });
-  console.log(job)
   if (!job) return notFound();
 
   return <ApplyJobForm job={job} />;

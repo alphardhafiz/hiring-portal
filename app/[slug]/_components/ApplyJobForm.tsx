@@ -9,6 +9,7 @@ import LabelInput from "@/components/LabelInput";
 import CustomDatePicker from "./CustomDatePicker";
 import CustomInputDomicile from "./CustomInputDomicile";
 import CustomPhoneInput from "./CustomPhoneInput";
+import CustomInputLinkedinUrl from "./CustomInputLinkedinUrl";
 
 interface ApplyJobFormProps {
   job: Job;
@@ -265,7 +266,7 @@ export default function ApplyJobForm({ job }: ApplyJobFormProps) {
               isRequire={job.linkedin === "MANDATORY"}
               title="LinkedIn Profile"
             />
-            <input
+            {/* <input
               disabled={job.linkedin === "OFF"}
               type="url"
               name="linkedin"
@@ -273,6 +274,12 @@ export default function ApplyJobForm({ job }: ApplyJobFormProps) {
               onChange={handleChange}
               placeholder="Ex. https://linkedin.com/in/johndoe"
               className="w-full px-4 py-2 border-2 border-[#E0E0E0] rounded-lg focus:outline-none focus:border-[#01959F]"
+            /> */}
+            <CustomInputLinkedinUrl
+              name="linkedin"
+              value={formData.linkedin}
+              onChange={handleChange}
+              disabled={job.linkedin === "OFF"}
             />
           </div>
         </div>

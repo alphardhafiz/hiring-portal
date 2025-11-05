@@ -32,7 +32,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json(job, { status: 201 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Failed to create job", error: String(error) },
       { status: 500 }
