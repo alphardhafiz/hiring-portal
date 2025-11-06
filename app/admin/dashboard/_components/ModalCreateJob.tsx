@@ -14,7 +14,11 @@ interface ModalCreateJobProps {
   onJobCreated: () => void;
 }
 
-function ModalCreateJob({ isOpen, onClose, onJobCreated }: ModalCreateJobProps) {
+function ModalCreateJob({
+  isOpen,
+  onClose,
+  onJobCreated,
+}: ModalCreateJobProps) {
   const [formData, setFormData] = useState({
     jobName: "",
     jobType: "",
@@ -75,9 +79,9 @@ function ModalCreateJob({ isOpen, onClose, onJobCreated }: ModalCreateJobProps) 
         linkedin: "OFF",
         dateOfBirth: "OPTIONAL",
       });
-      onClose()
+      onClose();
 
-      onJobCreated()
+      onJobCreated();
     } catch (error) {
       console.error("Error creating job:", error);
     } finally {
@@ -223,23 +227,45 @@ function ModalCreateJob({ isOpen, onClose, onJobCreated }: ModalCreateJobProps) 
                 label="Full Name"
                 disabledOptions={["OPTIONAL", "OFF"]}
                 borderBottom
+                onChange={handleChange}
               />
 
               <FieldRequirementSelect
                 label="Photo Profile"
                 disabledOptions={["OPTIONAL", "OFF"]}
                 borderBottom
+                onChange={handleChange}
               />
-              <FieldRequirementSelect label="Gender" borderBottom />
-              <FieldRequirementSelect label="Domicile" borderBottom />
+              <FieldRequirementSelect
+                label="Gender"
+                borderBottom
+                onChange={handleChange}
+              />
+              <FieldRequirementSelect
+                label="Domicile"
+                borderBottom
+                onChange={handleChange}
+              />
               <FieldRequirementSelect
                 label="Email"
                 disabledOptions={["OPTIONAL", "OFF"]}
                 borderBottom
+                onChange={handleChange}
               />
-              <FieldRequirementSelect label="Phone number" borderBottom />
-              <FieldRequirementSelect label="Linkedin link" borderBottom />
-              <FieldRequirementSelect label="Date of birth" />
+              <FieldRequirementSelect
+                label="Phone number"
+                borderBottom
+                onChange={handleChange}
+              />
+              <FieldRequirementSelect
+                label="Linkedin link"
+                borderBottom
+                onChange={handleChange}
+              />
+              <FieldRequirementSelect
+                label="Date of birth"
+                onChange={handleChange}
+              />
             </div>
           </div>
         </div>
