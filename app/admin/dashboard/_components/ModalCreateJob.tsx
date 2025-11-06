@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import JobTypeSelect from "./JobTypeSelect";
 import LabelInput from "@/components/LabelInput";
@@ -35,6 +35,7 @@ function ModalCreateJob({
     linkedin: "OFF",
     dateOfBirth: "OPTIONAL",
   });
+
   const [loading, setLoading] = useState(false);
   const handleChange = (
     eOrName: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string,
@@ -226,6 +227,8 @@ function ModalCreateJob({
               <FieldRequirementSelect
                 label="Full Name"
                 disabledOptions={["OPTIONAL", "OFF"]}
+                defaultValue="MANDATORY"
+                name="fullname"
                 borderBottom
                 onChange={handleChange}
               />
@@ -233,37 +236,51 @@ function ModalCreateJob({
               <FieldRequirementSelect
                 label="Photo Profile"
                 disabledOptions={["OPTIONAL", "OFF"]}
+                defaultValue="MANDATORY"
                 borderBottom
+                name="photoProfile"
                 onChange={handleChange}
               />
               <FieldRequirementSelect
                 label="Gender"
+                defaultValue="OPTIONAL"
                 borderBottom
+                name="gender"
                 onChange={handleChange}
               />
               <FieldRequirementSelect
                 label="Domicile"
                 borderBottom
+                defaultValue="OPTIONAL"
+                name="domicile"
                 onChange={handleChange}
               />
               <FieldRequirementSelect
                 label="Email"
                 disabledOptions={["OPTIONAL", "OFF"]}
                 borderBottom
+                defaultValue="MANDATORY"
+                name="email"
                 onChange={handleChange}
               />
               <FieldRequirementSelect
                 label="Phone number"
                 borderBottom
+                name="phoneNumber"
+                defaultValue="OPTIONAL"
                 onChange={handleChange}
               />
               <FieldRequirementSelect
                 label="Linkedin link"
                 borderBottom
+                defaultValue="OFF"
+                name="linkedin"
                 onChange={handleChange}
               />
               <FieldRequirementSelect
                 label="Date of birth"
+                name="dateOfBirth"
+                defaultValue="OPTIONAL"
                 onChange={handleChange}
               />
             </div>

@@ -2,18 +2,19 @@ import { useState } from "react";
 
 interface FieldRequirementSelectProps {
   label: string;
+  name: string;
   defaultValue?: string;
   disabledOptions?: string[];
   borderBottom?: boolean;
-  onChange?: (value: string) => void;
+  onChange: (name: string, value: string) => void;
 }
 
 export default function FieldRequirementSelect({
   label,
   defaultValue = "MANDATORY",
+  name,
   borderBottom = false,
   disabledOptions = [],
-
   onChange,
 }: FieldRequirementSelectProps) {
   const [selected, setSelected] = useState(defaultValue);
@@ -27,7 +28,7 @@ export default function FieldRequirementSelect({
   const handleSelect = (value: string) => {
     if (disabledOptions.includes(value)) return;
     setSelected(value);
-    onChange?.(value);
+    onChange(name, value);
   };
 
   return (
